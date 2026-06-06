@@ -1,0 +1,18 @@
+{
+  "cartoes": []
+}
+
+{
+  "cartoes": [
+    {
+      "apelido": "roxinho",
+      "banco": "Nubank",
+      "fatura_atual": 1250.50
+    },
+    {
+      "apelido": "inter",
+      "banco": "Banco Inter",
+      "fatura_atual": 450.00
+    }
+  ]
+}

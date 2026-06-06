@@ -2,70 +2,62 @@
 
 ## Como Avaliar seu Agente
 
-A avaliação pode ser feita de duas formas complementares:
+A avaliação de um agente de IA deve ser um processo contínuo e pode ser feita de duas formas complementares:
 
-1. **Testes estruturados:** Você define perguntas e respostas esperadas;
-2. **Feedback real:** Pessoas testam o agente e dão notas.
+1. **Testes estruturados:** Você define um conjunto fixo de perguntas e valida as respostas esperadas;
+2. **Feedback real:** Pessoas testam o agente em cenários variados e atribuem notas de desempenho.
 
 ---
 
 ## Métricas de Qualidade
 
-| Métrica | O que avalia | Exemplo de teste |
-|---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
+Utilize esta tabela para guiar a análise dos resultados durante os testes:
 
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
+| Métrica | O que avalia | Exemplo de teste |
+|---------|------------|------------------|
+| **Assertividade** | O agente registra o gasto exatamente como eu falei? | Lançar um gasto e conferir se o valor e o cartão estão certos. |
+| **Segurança** | O agente evitou alucinações (inventar dados)? | Tentar lançar um gasto inexistente e ver se ele avisa o erro. |
+| **Coerência** | O agente lembra do que combinamos nesta conversa? | Perguntar "Quais foram os gastos que registrei durante esta conversa?" |
 
 ---
 
 ## Exemplos de Cenários de Teste
 
-Crie testes simples para validar seu agente:
+Utilize os roteiros abaixo para validar o comportamento do seu agente e garantir consistência após cada ajuste:
 
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 1: Resumo dos gastos informados
+* **Pergunta:** "Quais foram os gastos que registrei durante esta conversa?"
+* **Resposta esperada:** O agente deve listar exatamente os itens que foram informados nesta sessão e confirmar o valor total.
+* **Resultado:** [ ] Correto  [x] Incorreto
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 2: Registro de gastos
+* **Pergunta:** "Salve um gasto de R$ 150,00 no cartão de crédito em 'Supermercado' no dia de hoje."
+* **Resposta esperada:** O agente confirma que o lançamento foi registrado corretamente na base de dados ou no arquivo de transações com a categoria e data corretas.
+* **Resultado:** [x] Correto  [ ] Incorreto
 
 ### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
+* **Pergunta:** "Pode me indicar uma receita de bolo para o fim de semana?"
+* **Resposta esperada:** O agente declina o pedido, reafirmando seu propósito exclusivo de consultoria e registro financeiro.
+* **Resultado:** [x] Correto  [ ] Incorreto
 
 ### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+* **Pergunta:** "Por que a ação da empresa X caiu tanto hoje?"
+* **Resposta esperada:** O agente admite que não possui acesso a dados de mercado em tempo real ou informações sobre a empresa X, evitando especulações.
+* **Resultado:** [x] Correto  [ ] Incorreto
 
 ---
 
 ## Resultados
 
-Após os testes, registre suas conclusões:
+Após os testes, registre suas conclusões. Use este espaço para documentar a evolução:
 
 **O que funcionou bem:**
-- [Liste aqui]
+- **Processamento de intenção:** O agente identificou corretamente o valor (R$ 150,00), o cartão (Inter) e a ação de salvar.
+- **Atualização lógica:** O sistema executou o cálculo de saldo e manteve o histórico de atendimentos atualizado na estrutura de dados.
+- **Robustez nos limites (Testes 3 e 4):** O agente demonstrou alta capacidade de respeitar as diretrizes de escopo, recusando com eficácia temas alheios às finanças.
 
-**O que pode melhorar:**
-- [Liste aqui]
-
----
-
-## Métricas Avançadas (Opcional)
-
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
-
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
-
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
+**O que pode melhorar (Ajustes de prompt/lógica):**
+- **Ocultar dados técnicos:** O agente está mostrando textos técnicos (os códigos JSON) na tela do chat. Isso deve ficar escondido, aparecendo apenas para você nos bastidores.
+- **Melhorar a explicação do saldo:** O valor aparece como negativo (R$ -150,00), o que pode confundir. O ideal é que ele informe algo como "Gasto registrado com sucesso. Fatura atual: R$ 150,00".
+- - **Persistência de histórico:** O agente não mantém os gastos registrados entre interações; cada nova entrada sobrescreve o estado anterior. Isso impede consultas posteriores e compromete a coerência.  
+- **Clareza na estrutura de saída:** A forma como os dados são exibidos (bloco JSON) não é amigável para o usuário final. É necessário apresentar o resumo dos gastos em linguagem natural, deixando os dados técnicos apenas para uso interno.  

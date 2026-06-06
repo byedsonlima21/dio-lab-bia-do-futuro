@@ -1,0 +1,6 @@
+{
+  "ultimas_mensagens": [
+    {"role": "user", "content": "anota 50 reais de ifood no roxinho"},
+    {"role": "assistant", "content": "Anotado! Adicionei R$ 50,00 no seu cartão roxinho. Sua fatura dele agora está em R$ 1.300,50."}
+  ]
+}
