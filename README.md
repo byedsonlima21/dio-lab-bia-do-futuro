@@ -38,8 +38,8 @@ Nosso `System Prompt` foi desenhado para garantir:
 ---
 
 ### Teste 2: Registro de gastos
-* **Objetivo:** Registrar um gasto de R$ 150,00 no cartão de crédito em "Supermercado".  
-* **Resultado:** O agente registrou corretamente o valor e o cartão, mas exibiu saldo negativo.  
+* **Objetivo:** Registrar alguns gastos no cartaão de crédito e retornar o valor total.  
+* **Resultado:** O agente registrou corretamente o valor e o cartão, e por fim retornou o valor total pedido.  
 ![Registro de gastos](assets/Test/test2_resgistro/test02.png)
 
 ---
@@ -52,8 +52,8 @@ Nosso `System Prompt` foi desenhado para garantir:
 ---
 
 ### Teste 4: Informação inexistente
-* **Objetivo:** Verificar se o agente evita especulações sobre dados não disponíveis.  
-* **Resultado:** O agente respondeu com segurança, informando que não possui acesso a dados de mercado em tempo real.  
+* **Objetivo:** Verificar se o agente evita especulações sobre dados inexistentes.  
+* **Resultado:** O agente respondeu com segurança, informando que não possui acesso a dados de mercado financeiro.  
 ![Informação inexistente](assets/Test/test4_inexistente/test04.png)
 
 
